@@ -1,0 +1,36 @@
+{
+  "name": "slush-bayse",
+  "version": "0.0.1",
+  "description": "A slush generator to scaffold a Bayse project",
+  "main": "slushfile.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lukehedger/slush-bayse"
+  },
+  "bugs": {
+    "url": "https://github.com/lukehedger/slush-bayse/issues"
+  },
+  "homepage": "https://github.com/lukehedger/slush-bayse",
+  "author": {
+    "name": "Luke Hedger",
+    "url": "https://github.com/lukehedger"
+  },
+  "license": "MIT",
+  "keywords": [
+    "slushgenerator",
+    "slush-bayse",
+    "bayse",
+    "coffeescript",
+    "myth"
+  ],
+  "dependencies": {
+    "gulp": "~3.8.0",
+    "gulp-template": "~0.1.1",
+    "gulp-install": "~0.1.4",
+    "gulp-conflict": "~0.1.2",
+    "gulp-rename": "~1.2.0",
+    "inquirer": "~0.5.1"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
+}
