@@ -1,4 +1,4 @@
-# generator-bayse
+# slush-bayse
 
 > [Slush](http://slushjs.github.io/) generator for [Bayse](https://github.com/lukehedger/bayse)
 
