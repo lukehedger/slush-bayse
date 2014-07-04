@@ -8,9 +8,7 @@ var gulp = require('gulp'),
     myth = require('gulp-myth'),
 	minifycss = require('gulp-minify-css'),
 	<% } %>
-	livereload = require('gulp-livereload'),
-	lr = require('tiny-lr'),
-	server = lr();
+	browserSync = require('browser-sync');
 
 <% if(coffee) { %>
 gulp.task('coffee', function () {
@@ -19,7 +17,7 @@ gulp.task('coffee', function () {
 		.pipe(coffee().on('error', gutil.log))
 		.pipe(sourcemaps.write('./maps'))
 		.pipe(gulp.dest('js'))
-		.pipe(livereload(server));
+		.pipe(browserSync.reload({stream:true, once: true}));
 });
 <% } %>
 
@@ -34,9 +32,23 @@ gulp.task('myth', function () {
 			processImport: true
 		}))
 		.pipe(gulp.dest('css'))
-		.pipe(livereload(server));
+		.pipe(browserSync.reload({stream:true}));
 });
 <% } %>
+
+gulp.task('browser-sync', function() {
+    browserSync.init(null, {
+        server: {
+            baseDir: "./"
+        },
+        ports: {
+        	min: 5000,
+        	max: 5000
+        },
+        open: false, // disable automatic browser launch on server start
+        notify: false // disable browser notifications
+    });
+});
 
 gulp.task('default', function () {
 	<%
@@ -47,6 +59,7 @@ gulp.task('default', function () {
 });
 
 gulp.task('watch', function() {
+	gulp.start('browser-sync');
 	<% if(coffee) {print("gulp.watch('coffee/**/*.coffee', ['coffee']);");} %>
 	<% if(myth) {print("gulp.watch('myth/**/*.css', ['myth']);");} %>
 });
