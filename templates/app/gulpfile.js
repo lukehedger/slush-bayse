@@ -1,8 +1,9 @@
 var gulp = require('gulp'),
+	browserify = require('browserify'),
+	source = require('vinyl-source-stream'),
+	gutil = require('gulp-util'),
 	<% if(coffee) { %>
 	sourcemaps = require('gulp-sourcemaps'),
-	coffee = require('gulp-coffee'),
-	gutil = require('gulp-util'),
 	<% } %>
 	<% if(myth) { %>
     myth = require('gulp-myth'),
@@ -11,13 +12,31 @@ var gulp = require('gulp'),
 	browserSync = require('browser-sync');
 
 <% if(coffee) { %>
-gulp.task('coffee', function () {
-	gulp.src('coffee/**/*.coffee')
-		.pipe(sourcemaps.init())
-		.pipe(coffee().on('error', gutil.log))
-		.pipe(sourcemaps.write('./maps'))
-		.pipe(gulp.dest('js'))
-		.pipe(browserSync.reload({stream:true, once: true}));
+gulp.task('browserify', function () {
+	browserify({
+		entries: ['./coffee/app.coffee'],
+		extensions: ['.coffee'],
+		debug: true
+	})
+	.bundle()
+	.on('error', gutil.log)
+	.pipe(source('bundle.js'))
+	.pipe(gulp.dest('js'))
+	.pipe(browserSync.reload({stream:true, once: true}))
+});
+<% } %>
+
+<% if(!coffee) { %>
+gulp.task('script', function () {
+	browserify({
+		entries: ['./js/app.js'],
+		debug: true
+	})
+	.bundle()
+	.on('error', gutil.log)
+	.pipe(source('bundle.js'))
+	.pipe(gulp.dest('js'))
+	.pipe(browserSync.reload({stream:true, once: true}))
 });
 <% } %>
 
@@ -36,7 +55,7 @@ gulp.task('myth', function () {
 });
 <% } %>
 
-gulp.task('browser-sync', function() {
+gulp.task('server', function() {
     browserSync.init(null, {
         server: {
             baseDir: "./"
@@ -51,15 +70,17 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('default', function () {
+	gulp.start('server', 'watch');
 	<%
-		if(coffee && myth) {print("gulp.start('coffee', 'myth');");}
-		else if(coffee && !myth) {print("gulp.start('coffee');");}
-		else if(!coffee && myth) {print("gulp.start('myth');");}
+		if(coffee && myth) {print("gulp.start('browserify', 'myth');");}
+		else if(coffee && !myth) {print("gulp.start('browserify');");}
+		else if(!coffee && myth) {print("gulp.start('script', 'myth');");}
+		else if(!coffee && !myth) {print("gulp.start('script');");}
 	%>
 });
 
 gulp.task('watch', function() {
-	gulp.start('browser-sync');
-	<% if(coffee) {print("gulp.watch('coffee/**/*.coffee', ['coffee']);");} %>
+	<% if(coffee) {print("gulp.watch(['coffee/app.coffee', 'template/**/*.html'], ['browserify']);");} %>
+	<% if(!coffee) {print("gulp.watch(['js/app.js', 'template/**/*.html'], ['script']);");} %>
 	<% if(myth) {print("gulp.watch('myth/**/*.css', ['myth']);");} %>
 });

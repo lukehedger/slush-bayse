@@ -7,7 +7,7 @@ var gulp = require('gulp'),
 gulp.task('default', function (done) {
 	inquirer.prompt([
     	{type: 'checkbox', name: 'features', message: 'What else would you like to include?', choices: [{name: 'CoffeeScript', value: 'coffee', checked: false}, {name: 'Myth', value: 'myth', checked: false}]},
-    	{type: 'input', name: 'name', message: 'Cool. So what\'s the name of your project?', validate: function(input) { return (input.length ? true : "This field is required."); }, default: gulp.args.join(' ')},
+    	{type: 'input', name: 'name', message: 'Cool. So what\'s the name of your project? (No spaces please)', validate: function(input) { return (input.length ? true : "This field is required."); }, default: gulp.args.join(' ')},
     	{type: 'input', name: 'description', message: 'And what will it do?'},
 		{type: 'confirm', name: 'moveon', message: 'Continue?'}
 	],

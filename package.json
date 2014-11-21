@@ -1,6 +1,6 @@
 {
   "name": "slush-bayse",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A slush generator to scaffold a Bayse project",
   "main": "slushfile.js",
   "repository": {

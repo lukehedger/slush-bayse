@@ -44,10 +44,6 @@ else {
 - **CSS**
     - CSS files
 <% } %>
-- **Vendor**
-    - RequireJS
-    - jQuery
-    - add other vendor files here
 
 <% if(coffee || myth) { %>
 ## Getting started
@@ -58,19 +54,11 @@ To use Gulp to compile your project, run the following commands in the root of y
 
 `npm install -g gulp`
 
-### Install Gulp Dependencies
-
-`npm install --save-dev`
-
-### Compile and watch
-
-`gulp watch`
-
-### ...or just compile once
+### Compile, serve and watch
 
 `gulp`
 
-### Stop watching
+### Stop server/watching
 
 `ctrl + c`
 <% } %>
